@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Amortize
+{% endblock %}
+
+{% block add_edit %}
+<form class="add-form" action="/amortize" method="post">
+  <input name="user_loan_id" type="hidden" value="{{data.user_loan_id}}">
+
+    <label for="amort_value" class="add-input-label">Amortization value</label>
+    <div class="form-row">
+      <div>
+        <input class=""  required autocomplete="off" id="amort_value" autofocus name="amort_value" placeholder="1000.00" type="number" step="0.5" min="0.5" value = "{{data.amort_value}}">
+      </div>
+      {% if errors.amort_value %}
+      <div class="error-message error-message--stretch" role="alert">
+        <p>
+        {{errors["amort_value"]}}
+        </p>
+      </div>
+      {% endif %}
+    </div>
+
+  <label for="amort_date" class="add-input-label">Amortization date</label>
+  <div class="form-row">
+    <div>
+      <input required id="amort_date"  class="" autocomplete="off" autofocus name="amort_date" type="date", value="{{data.amort_date}}">
+    </div>
+    {% if errors.amort_date %}
+    <div class="error-message error-message--stretch" role="alert">
+    <p>
+    {{errors["amort_date"]}}
+    </p>
+    </div>
+    {% endif %}
+  </div>
+ 
+  <button class="btn add-btn" type="submit">Amortize</button>
+</form>
+{% endblock%}

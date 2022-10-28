@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Report
+{% endblock %}
+
+
+{% block table %}
+<table class="table margin-t-m">
+    <thead>
+        <tr>
+            <th class="text-center th-26">Date</th>
+            <th class="text-end th-24">Scheduled principal before amortization</th>
+            <th class="text-end th-24">Scheduled amortization</th>
+            <th class="text-end th-24">Scheduled interest</th>
+            <th class="text-end th-24">Actual principal before amortization</th>
+            <th class="text-end th-24">Actual amortization</th>
+            <th class="text-end th-24">Actual amortization schedule</th>
+            <th class="text-end th-24">Actual interest schedule</th>
+        </tr>
+    </thead>
+    <tbody>
+      {% for row in report %}
+    <tr>
+      <td class="text-center">{{row.date}}</td>
+      <td class="text-end">{{row.scheduled_principals_b_amort}}</td>
+      <td class="text-end">{{row.amort_schedule}}</td>
+      <td class="text-end">{{row.interest_payment_schedule}}</td>
+      <td class="text-end">{{row.actual_principals_b_amort}}</td>
+      <td class="text-end">{{row.actual_amortizations}}</td>
+      <td class="text-end">{{row.actual_amort_schedule}}</td>
+      <td class="text-end">{{row.actual_interest_payment_schedule}}</td>
+    </tr>
+      {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

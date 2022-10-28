@@ -1,0 +1,27 @@
+{% extends  "layout.html" %}
+
+{% block title %}
+    Edit bank
+{% endblock %}
+
+{% block add_edit %}
+<form class="add-form" action="/edit_bank" method="post">
+  <label for="bank" class="add-input-label">Bank</label>
+  <div class="form-row">
+    <div>
+      <input name="user_bank_id" type="hidden" value="{{data.user_bank_id}}">
+      <input autocomplete="off" id="bank" autofocus name="bank" placeholder="Example Bank" type="text" value = "{{data.bank}}">
+    </div>
+
+    {% if errors %}
+      <div class="error-message error-message--stretch" role="alert">
+      </p>
+      {{errors["bank"]}}
+      <p>
+      </div>
+      {% endif %}
+  </div>
+</div>
+  <button class="btn add-btn" type="submit">Edit</button>
+</form>
+{% endblock%}

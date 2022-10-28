@@ -1,0 +1,197 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add loans
+{% endblock %}
+
+{% block add_edit %}
+<form class="add-form" action="/add_loans" method="post">
+  <label for="face_value" class="add-input-label">Face value</label>
+  <div class="form-row">
+    <div>
+      <input class=""  required autocomplete="off" id="face_value" autofocus name="face_value" placeholder="1000.00" type="number" step="0.5" min="0.5" value = "{{data.face_value}}">
+    </div>
+    {% if errors.face_value %}
+    <div class="error-message error-message--stretch" role="alert">
+      <p>
+      {{errors["face_value"]}}
+      </p>
+    </div>
+    {% endif %}
+  </div>
+
+  <label for="bank" class="add-input-label">Bank</label>
+  <div class="form-row">
+    <div>
+      <select required id="bank"  autofocus name="bank">
+      {% if data.bank %}
+      <option value="">Please choose one option:</option>
+      {% else %}
+      <option value="" selected>Please choose one option:</option>
+      {% endif %}
+
+      {% for bank in banks %}
+        {% if data.bank == bank['bank'] %}
+          <option selected value="{{bank['bank']}}">{{bank['bank']}}</option>
+        {% else %}
+          <option value="{{bank['bank']}}">{{bank['bank']}}</option>
+        {% endif %}
+      {% endfor %}
+      </select>
+    </div>
+    {% if errors.bank %}
+    <div class="error-message error-message--stretch" role="alert">
+      <p>
+      {{errors["bank"]}}
+      </p>
+    </div>
+    {% endif %}
+  </div>
+  <label for="issue_date" class="add-input-label">Issue date</label>
+  <div class="form-row">
+    <div>
+      <input required id="issue_date"  class="" autocomplete="off" autofocus name="issue_date" type="date", value="{{data.issue_date}}">
+    </div>
+    {% if errors.issue_date %}
+    <div class="error-message error-message--stretch" role="alert">
+    <p>
+    {{errors["issue_date"]}}
+    </p>
+    </div>
+    {% endif %}
+  </div>
+  <label for="loan_term" class="add-input-label">Loan term</label>
+  <div class="form-row">
+    <div>
+      <input required class=""  autocomplete="off" id="loan_term" autofocus name="loan_term" placeholder="6" type="number" step="1" min="1" value = "{{data.loan_term}}">
+    </div>
+    {% if errors.loan_term %}
+    <div class="error-message error-message--stretch" role="alert">
+    <p>
+    {{errors["loan_term"]}}
+    </p>
+    </div>
+    {% endif %}
+  </div>
+  <label for="payment_frequency" class="add-input-label">Payment frequency</label>
+  <div class="form-row">
+    <div>
+      <select required id="payment_frequency" autofocus name="payment_frequency">
+        {% if data.payment_frequency %}
+          <option value="" selected>Please choose one option:</option>
+        {% else %}
+          <option value="" selected>Please choose one option:</option>
+        {% endif %}
+        {% for frequency in frequencies %}
+          {% if data.payment_frequency == frequency['frequency'] %}
+            <option  selected value="{{frequency['frequency']}}">{{frequency['frequency']}}</option>
+          {% else %}
+          <option  value="{{frequency['frequency']}}">{{frequency['frequency']}}</option>
+          {% endif %}
+        {% endfor %}
+    </select>
+    </div>
+    {% if errors.payment_frequency %}
+    <div class="error-message error-message--stretch" role="alert">
+    <p>
+    {{errors["payment_frequency"]}}
+    </p>
+    </div>
+    {% endif %}
+  </div>
+
+
+  <label for="interest_rate" class="add-input-label">Interest rate</label>
+  <div class="form-row">
+    <div>
+      <input required class=""  autocomplete="off" id="interest_rate" autofocus name="interest_rate" placeholder="3.5" type="number" step="0.05" min="0.05" max ="100.00" value = "{{data.interest_rate}}">
+    </div>
+    {% if errors.interest_rate %}
+    <div class="error-message error-message--stretch" role="alert">
+    <p>
+    {{errors["interest_rate"]}}
+    </p>
+    </div>
+    {% endif %}
+  </div>
+  <label for="interest_rate_type" class="add-input-label">Interest rate type</label>
+  <div class="form-row">
+    <div>
+      <select required id="interest_rate_type"  autofocus name="interest_rate_type" value="{{data.interest_rate_type}}">
+      {% if data.interest_rate_type %}
+        <option value="" selected>Please choose one option:</option>
+      {% else %}
+        <option value="" selected>Please choose one option:</option>
+      {% endif %}
+      {% for type in types %}
+        {% if data.interest_rate_type == type['type'] %}
+          <option  selected value="{{type['type']}}">{{type['type']}}</option>
+        {% else %}
+        <option  value="{{type['type']}}">{{type['type']}}</option>
+        {% endif %}
+      {% endfor %}
+    </select>
+    </div>
+    {% if errors.interest_rate_type %}
+    <div class="error-message error-message--stretch" role="alert">
+    <p>
+    {{errors["interest_rate_type"]}}
+    </p>
+    </div>
+    {% endif %}
+  </div>
+  <label for="nominal_rate_compounding_period" class="add-input-label">Nominal rate compounding period</label>
+  <div class="form-row">
+    <div>
+      <select required id="nominal_rate_compounding_period"  autofocus name="nominal_rate_compounding_period" value="{{data.nominal_rate_compounding_period}}">
+        {% if data.nominal_rate_compounding_period %}
+          <option value="" selected>Please choose one option:</option>
+        {% else %}
+          <option value="" selected>Please choose one option:</option>
+        {% endif %}
+        {% for compounding_period in compounding_periods %}
+          {% if data.nominal_rate_compounding_period == compounding_period['frequency'] %}
+            <option  selected value="{{compounding_period['frequency']}}">{{compounding_period['frequency']}}</option>
+          {% else %}
+          <option  value="{{compounding_period['frequency']}}">{{compounding_period['frequency']}}</option>
+          {% endif %}
+        {% endfor %}
+    </select>
+    </div>
+    {% if errors.nominal_rate_compounding_period %}
+    <div class="error-message error-message--stretch" role="alert">
+    <p>
+    {{errors["nominal_rate_compounding_period"]}}
+    </p>
+    </div>
+    {% endif %}
+  </div>
+  <label for="interest_payment_frequency" class="add-input-label">Interest payment frequency</label>
+  <div class="form-row">
+    <div>
+      <select required id="interest_payment_frequency"  autofocus name="interest_payment_frequency" value="{{data.interest_payment_frequency}}">
+        {% if data.interest_payment_frequency %}
+          <option value="" selected>Please choose one option:</option>
+        {% else %}
+          <option value="" selected>Please choose one option:</option>
+        {% endif %}
+        {% for frequency in frequencies %}
+          {% if data.interest_payment_frequency == frequency['frequency'] %}
+            <option  selected value="{{frequency['frequency']}}">{{frequency['frequency']}}</option>
+          {% else %}
+          <option  value="{{frequency['frequency']}}">{{frequency['frequency']}}</option>
+          {% endif %}
+        {% endfor %}
+    </select>
+    </div>
+    {% if errors.interest_payment_frequency %}
+    <div class="error-message error-message--stretch" role="alert">
+    <p>
+    {{errors["interest_payment_frequency"]}}
+    </p>
+    </div>
+    {% endif %}
+  </div>
+  <button class="btn add-btn" type="submit">Add</button>
+</form>
+{% endblock%}

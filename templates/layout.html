@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link href="/static/styles.css" rel="stylesheet">
+
+  <title>loMap: {% block title %}{% endblock %}</title>
+</head>
+<body>
+    <header class="header">
+
+        <span class="logo">lo<span>M</span>ap</span>
+        {% if session["user_id"] %}
+            <nav class="main-nav main-nav--logged-in">
+                <ul class="main-nav-list">
+                    <li><a class="main-nav-link" href="/">Loans</a></li>
+                    <li><a class="main-nav-link" href="/amortizations">Amortizations</a></li>
+                    <li><a class="main-nav-link" href="/banks">Banks</a></li>
+                </ul>
+                <ul class="main-nav-list">
+                    <li><a class="main-nav-link" href="/logout">Log Out</a></li>
+                    {% if view != "password_change" %}
+                    <li><a class="main-nav-link" href="/passwordchange">Change Password</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% else %}
+            <nav class="main-nav main-nav--logged-out"></nav>
+                <ul class="main-nav-list">
+                    {% if view != "register" %}
+                    <li><a class="main-nav-link" href="/register">Register</a></li>
+                    {% endif %}
+                    {% if view != "login" %}
+                    <li><a class="main-nav-link" href="/login">Log In</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+
+    </header>
+    <main>
+    {% if session["user_id"] %}
+        {% if view == "password_change" %}
+            {% block change_password %}{% endblock %}
+        {% elif view in ["loans", "amortizations", "banks", "report"] %}
+
+            <div class="{{mtype}}message" role="alert">
+                <p class="">{{message}}</p>
+            </div>
+            
+            <div class="main-container grid">
+                <menu class="menu">
+                    <div class="menu-links margin-top--m">
+                        {% if view != "report" %}
+                        <a href="/add_{{view}}" class="menu-link">Add</a>
+                        {% else %}
+                        <a href="/" class="menu-link">Back</a>
+                        {% endif %}
+                    </div>
+                    <div class="search-menu">
+                        {% if view != "report" %}
+                        <p class="search-text">
+                            Filter by
+                        </p>
+                        {% endif %}
+                        <div class="search-forms margin-top--s">
+                        {% block menu%}{% endblock%}
+                        </div>
+                    </div>
+                    <div class="menu-links">
+                        {% if view == "loans" %}
+                        <a href="/" class="menu-link">All</a>
+                        {% elif view == "amortizations" %}
+                        <a href="/amortizations" class="menu-link">All</a>
+                        {% elif view == "banks" %}
+                        <a href="/banks" class="menu-link">All</a>
+                        {% endif %}
+                    </div>
+                </menu>
+                <section class="table-section">
+                    {% block table %} {% endblock %}
+                </section>
+            </div>
+        {% elif view == "report" %}
+
+        
+        {% else %}
+            {% block add_edit %} {% endblock %}
+        {% endif %}
+    {% else %}
+        {% block users %}{% endblock %}
+    {% endif %}
+    </main>
+</body>
+</html>
+

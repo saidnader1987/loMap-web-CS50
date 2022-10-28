@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock%}
+
+{% block users %}
+<form class="user-form" action="/register" method="post">
+    <div>
+        <input autocomplete="off" autofocus class="" id="username" name="username" placeholder="Username" type="text" value={{username}}>
+    </div>
+    <div>
+        <input name="password" placeholder="Password" type="password" value={{password}}>
+    </div>
+    <div>
+        <input name="confirmation" placeholder="Confirm Password" type="password" value="{{confirmation}}">
+    </div>
+    {% if message %}
+    <div class="error-message" role="alert">
+        </p>
+            {{message}}
+        <p>
+    </div>
+    {% endif %}
+    <button class="btn" type="submit">Register</button>
+
+</form>
+{% endblock %}

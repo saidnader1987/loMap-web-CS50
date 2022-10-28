@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log in
+{% endblock %}
+
+{% block users %}
+    <form class="user-form" action="/login" method="post">
+        <div>
+            <input autocomplete="off" autofocus name="username" placeholder="Username" type="text" value = {{username}}>
+        </div>
+        <div>
+            <input name="password" placeholder="Password" type="password" value = {{password}}>
+        </div>
+        {% if message %}
+        <div class="error-message" role="alert">
+            </p>
+                {{message}}
+            <p>
+        </div>
+        {% endif %}
+        <button class="btn" type="submit">Log In &rarr;</button>
+    </form>
+{% endblock %}

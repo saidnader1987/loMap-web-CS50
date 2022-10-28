@@ -1,0 +1,171 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Loans
+{% endblock %}
+
+{% block menu %}
+    <form action="/filter" method="get" class="search-form">
+        <select required class="select-input" autofocus name="user_loan_id">
+            <option value="" selected>Id</option>
+            {% for id in ids %}
+              <option value="{{id['user_loan_id']}}">{{id['user_loan_id']}}</option>
+            {% endfor %}
+        </select>
+        <button class="action-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+        </button>
+    </form>
+    <form action="/filter" method="get" class="search-form">
+        <select required class="select-input" autofocus name="bank">
+            <option value="" selected>Bank</option>
+            {% for bank in banks %}
+              <option value="{{bank['bank']}}">{{bank['bank']}}</option>
+            {% endfor %}
+        </select>
+        <button class="action-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+        </button>
+    </form>
+    <form action="/filter" method="get" class="search-form">
+        <select required class="select-input" autofocus name="status">
+            <option value="" selected>Status</option>
+            <option value="paid">Paid</option>
+            <option value="due">Due</option>
+        </select>
+        <button class="action-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+        </button>
+    </form>
+    <form action="/filter" method="get" class="search-form">
+        <select required class="select-input" autofocus name="interest_rate_type">
+            <option value="" selected>Interest rate type</option>
+            {% for type in types %}
+              <option value="{{type['type']}}">{{type['type']}}</option>
+            {% endfor %}
+
+        </select>
+        <button class="action-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+        </button>
+    </form>
+    <form action="/filter" method = "get" class="search-form">
+        <select required class="select-input" autofocus name="payment_frequency">
+            <option value="" selected>Payment freq.</option>
+            {% for frequency in frequencies %}
+              <option value="{{frequency['frequency']}}">{{frequency['frequency']}}</option>
+            {% endfor %}
+        </select>
+        <button class="action-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+        </button>
+    </form>
+    
+    <label class="input-label" for="before" >Issued before</label>
+    <form action="/filter" method="get" class="search-form">
+        <input id="before" required class="select-input" autocomplete="off" autofocus name="issued_before" type="date">
+        <button class="action-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+        </button>
+    </form> 
+    <label class="input-label" for="after" >Issued after</label>
+    <form action = "/filter" method="get" class="search-form">
+        <input id="after" required class="select-input" autocomplete="off" autofocus name="issued_after" type="date">
+        <button class="action-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+        </button>
+    </form> 
+
+{% endblock %}
+
+{% block table %}
+<table class="table table--overflow margin-t-m">
+  <thead>
+    <tr>
+        <th class="text-center th-12">Action</th>
+        <th class="text-center th-4">Id</th>
+        <th class="text-end th-16">Face value</th>
+        <th class="text-end th-16">Principal</th>
+        <th class="text-center th-24">Bank</th>
+        <th class="text-center th-16">Issue date</th>
+        <th class="text-center th-4">Term</th>
+        <th class="text-center th-16">Maturity date</th>
+        <th class="text-center th-16">Interest rate</th>
+        <th class="text-center th-16">Payment frequency</th>
+        <th class="text-center th-16">Interest rate type</th>
+        <th class="text-center th-20">Interest rate type compounding period</th>
+        <th class="text-center th-20">Interest payment frequency</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for loan in loans %}
+    <tr>
+        <td class="text-center">
+            <div class="action-column">
+                <form action="/edit_loan" method="get">
+                    <input name="user_loan_id" type="hidden" value="{{loan['user_loan_id']}}">
+                    <button class="action-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                        </svg>
+                        
+                    </button>
+                </form>
+                <form action="/delete_loan" method="post">
+                    <input name="user_loan_id" type="hidden" value="{{loan['user_loan_id']}}">
+                    <button class="action-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </form>
+                <form action="/amortize" method="get">
+                    <input name="user_loan_id" type="hidden" value="{{loan['user_loan_id']}}">
+                    <button class="action-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </button>
+                </form>
+                <form action="/report" method="get">
+                    <input name="user_loan_id" type="hidden" value="{{loan['user_loan_id']}}">
+                    <button class="action-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                          </svg>
+                    </button>
+                </form>
+            </div>
+            </td>
+        <td class="text-end">{{loan["user_loan_id"]}}</td>
+        <td class="text-end">{{loan["face_value"] | usd}}</td>
+        <td class="text-end">{{loan["principal"] | usd}}</td>
+        <td class="text-center">{{loan["bank"]}}</td>
+        <td class="text-center">{{loan["issue_date"]}}</td>
+        <td class="text-end">{{loan["loan_term"]}}</td>
+        <td class="text-center">{{loan["maturity_date"]}}</td>
+        <td class="text-end">{{loan["interest_rate"] | percentage}}</td>
+        <td class="text-center">{{loan["payment_frequency"]}}</td>
+        <td class="text-center">{{loan["interest_rate_type"]}}</td>
+        <td class="text-center">{{loan["nominal_rate_compounding_period"]}}</td>
+        <td class="text-center">{{loan["interest_payment_frequency"]}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

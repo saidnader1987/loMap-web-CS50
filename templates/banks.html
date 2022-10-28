@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Banks
+{% endblock %}
+
+{% block menu %}
+    <form action="bank_filter" class="search-form">
+        <select required class="select-input" autofocus name="user_bank_id">
+            <option value="" selected>Id</option>
+            {% for id in ids %}
+              <option value="{{id['user_bank_id']}}">{{id['user_bank_id']}}</option>
+            {% endfor %}
+        </select>
+        <button class="action-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+        </button>
+    </form>
+    
+
+{% endblock %}
+
+{% block table %}
+<table class="table margin-t-m">
+    <thead>
+        <tr>
+            <th class="text-center th-12">Action</th>
+            <th class="text-center th-4">Id</th>
+            <th class="text-center th-24">Bank</th>
+            <th class=""></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for bank in banks %}
+    <tr>
+      <td class="text-center">
+        <div class="action-column">
+              <form action="/edit_bank" method="get">
+                <input name="user_bank_id" type="hidden" value="{{bank['user_bank_id']}}">
+                  <button class="action-btn">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                      </svg>   
+                  </button>
+              </form>
+              <!-- <a href="/edit_bank_{{bank['user_bank_id']}}"></a> -->
+              <form action="/delete_bank" method="post">
+                <input name="user_bank_id" type="hidden" value="{{bank['user_bank_id']}}">
+                  <button class="action-btn">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                  </button>
+              </form>
+        </div>
+        </td>
+      <td class="text-center">{{bank["user_bank_id"]}}</td>
+      <td class="text-center">{{bank["bank"]}}</td>
+      <td></td>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
